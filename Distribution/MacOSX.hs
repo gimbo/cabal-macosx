@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {- | Cabal support for creating Mac OSX application bundles.
 
 GUI applications on Mac OSX should be run as application /bundles/;
@@ -27,13 +28,15 @@ import Control.Exception
 import Prelude hiding ( catch )
 import Control.Monad (forM_, when, filterM)
 import Data.List ( isPrefixOf )
-import Data.String.Utils (replace)
+import Data.Text ( Text )
 import System.Cmd (system)
 import System.Exit
 import System.FilePath
 import System.Info (os)
 import System.Directory (copyFile, createDirectoryIfMissing, doesDirectoryExist,
                          getHomeDirectory)
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 
 import Distribution.PackageDescription (PackageDescription(..),
                                         Executable(..))
@@ -200,9 +203,9 @@ maybeCopyPlist appPath app =
     Nothing -> case appIcon app of
                  Just icPath ->
                    do -- Need a plist to support icon; use default.
-                     let pl = replace "$program" (appName app) plistTemplate
-                         pl' = replace "$iconPath" (takeFileName icPath) pl
-                     writeFile plDest pl'
+                     let pl  = T.replace "$program"  (T.pack (appName app)) plistTemplate
+                         pl' = T.replace "$iconPath" (T.pack (takeFileName icPath)) pl
+                     T.writeFile plDest pl'
                      return ()
                  Nothing -> return () -- No icon, no plist, nothing to do.
     where plDest = appPath </> "Contents/Info.plist"
@@ -252,7 +255,7 @@ developerTools =
 
 -- | Default plist template, based on that in macosx-app from wx (but
 -- with version stuff removed).
-plistTemplate :: String
+plistTemplate :: Text
 plistTemplate = "\
     \<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
     \<!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\">\n\
