@@ -28,6 +28,13 @@ import Prelude hiding ( catch )
 import Control.Monad (forM_, when, filterM)
 import Data.List ( isPrefixOf )
 import Data.String.Utils (replace)
+import System.Cmd (system)
+import System.Exit
+import System.FilePath
+import System.Info (os)
+import System.Directory (copyFile, createDirectoryIfMissing, doesDirectoryExist,
+                         getHomeDirectory)
+
 import Distribution.PackageDescription (PackageDescription(..),
                                         Executable(..))
 import Distribution.Simple
@@ -38,12 +45,6 @@ import Distribution.Simple.Setup (BuildFlags, InstallFlags,
                                  )
 import Distribution.Simple.Utils (installDirectoryContents, installExecutableFile)
 import Distribution.Verbosity (normal)
-import System.Cmd (system)
-import System.FilePath
-import System.Info (os)
-import System.Directory (copyFile, createDirectoryIfMissing, doesDirectoryExist,
-                         getHomeDirectory)
-import System.Exit
 
 import Distribution.MacOSX.AppBuildInfo
 import Distribution.MacOSX.Common
