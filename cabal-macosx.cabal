@@ -32,7 +32,7 @@ Source-Repository head
 
 Library
   Build-Depends:   base >= 4 && < 5, Cabal >= 1.6, directory
-               ,   fgl >= 5.4.2.2 && < 5.5
+               ,   fgl >= 5.4.2.2 && < 5.6
                ,   filepath, MissingH, parsec, process
   Exposed-modules: Distribution.MacOSX
   Other-modules:   Distribution.MacOSX.Common,
@@ -44,5 +44,5 @@ Library
 Executable macosx-app
   Main-is:         macosx-app.hs
   Build-Depends:   base >= 4 && < 5, Cabal >= 1.6, directory
-               ,   fgl >= 5.4.2.2 && < 5.5
+               ,   fgl >= 5.4.2.2 && < 5.6
                ,   filepath, MissingH, parsec, process
