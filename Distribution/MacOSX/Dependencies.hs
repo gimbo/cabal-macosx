@@ -213,6 +213,8 @@ updateDependency ::
 updateDependency appPath app src tgt =
   do putStrLn $ "Updating " ++ newLib ++ "'s dependency on " ++ tgt ++
                    " to " ++ tgt'
+     perm <- getPermissions tgt'
+     setPermissions tgt' (setOwnerWritable True perm)
      let cmd = iTool ++ " -change " ++ show tgt ++ " " ++ show tgt' ++
                    " " ++ show newLib
      --putStrLn cmd
