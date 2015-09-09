@@ -190,6 +190,8 @@ copyInDependency appPath app (FDeps src _) =
          do putStrLn $ "Copying " ++ src ++ " to " ++ tgt
             createDirectoryIfMissing True $ takeDirectory tgt
             copyFile src tgt
+            perm <- getPermissions tgt
+            setPermissions tgt (setOwnerWritable True perm)
     where tgt = appPath </> pathInApp app src
 
 -- | Update some object file's library dependencies to point to
